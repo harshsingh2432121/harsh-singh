@@ -1,0 +1,16 @@
+string caesarCipher(string s, int k) {
+    string ans;
+    k = k % 26; 
+
+    for (auto ch : s) {
+        if (isalpha(ch)) {
+            char base = isupper(ch) ? 'A' : 'a';
+            char i = char((ch - base + k) % 26 + base);
+            ans += i;
+        }
+        else {
+            ans += ch;
+        }
+    }
+    return ans;
+}
