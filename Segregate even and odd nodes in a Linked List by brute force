@@ -1,0 +1,49 @@
+// User function template for C++
+
+/*
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    Node* divide(Node* head) {
+        // code here
+        vector<int>even,odd;
+        Node *p;
+        p=head;
+        while(p!=nullptr)
+        {
+            if(p->data%2==0)
+            {
+                even.push_back(p->data);
+            }
+            else
+            {
+                odd.push_back(p->data);
+        }
+          p=p->next;
+    }
+    p=head;
+    int i=0,j=0;
+    while(p!=nullptr)
+    {
+        if(i<even.size())
+        {
+            p->data=even[i++];
+        }
+        else{
+            p->data=odd[j++];
+        }
+          p=p->next;
+    }
+    return head;
+    }
+};
