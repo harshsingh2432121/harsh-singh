@@ -1,0 +1,33 @@
+/*
+class Node {
+  public:
+    int data;
+    Node *next;
+    Node *prev;
+    Node(int val) {
+        data = val;
+        next = NULL;
+        prev = NULL;
+    }
+};
+
+*/
+class Solution {
+  public:
+    Node *reverse(Node *head) {
+        // code here
+       if (head==nullptr) return head;
+       // swap(head->prev,head->next);
+        if (head->next==nullptr) return head;
+       // return reverse(head->prev);
+       Node *pre=NULL,*curr=head;
+        while(curr!=NULL)
+        {
+            pre=curr->prev;
+            curr->prev=curr->next;
+            curr->next=pre;
+            curr=curr->prev;
+        }
+        return pre->prev;
+    }
+};
