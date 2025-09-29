@@ -1,0 +1,19 @@
+int anagram(string s) 
+{
+    int n=s.length();
+    if(n%2!=0)
+    return -1;
+
+    string a=s.substr(0,n/2);
+    string b=s.substr(n/2,n/2);
+    vector<int> freq(26,0);
+    for(char ch:a)freq[ch-'a']++;
+    for(char ch:b)freq[ch-'a']--;
+    int changes=0;
+    for(int f:freq) 
+    {
+        if(f>0) 
+            changes=changes+f;
+    }
+    return changes;
+}
