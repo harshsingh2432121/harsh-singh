@@ -1,0 +1,25 @@
+string solve(int n) {
+    queue<string> q;
+    unordered_set<int> visited;
+
+    q.push("9");
+
+    while (!q.empty()) {
+        string s = q.front();
+        q.pop();
+
+        long long num = 0;
+        for (char c : s)
+            num = (num * 10 + (c - '0')) % n;
+
+        if (num == 0)
+            return s;
+
+        if (visited.find(num) == visited.end()) {
+            visited.insert(num);
+            q.push(s + "0");
+            q.push(s + "9");
+        }
+    }
+    return "";
+}
