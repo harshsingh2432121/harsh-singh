@@ -23,3 +23,23 @@ class Solution {
         
     }
 };
+//By using two pointer 
+ Node *p=head1,*q=head2;
+        while(p!=nullptr && q!=nullptr)
+        {
+            if(p->data!=q->data)
+            {
+                if(p->data>q->data)
+                return 1;
+                else 
+                return -1;
+            }
+            p=p->next;
+            q=q->next;
+        }
+        if(p==nullptr && q==nullptr)
+        return 0;
+        else if(p!=nullptr && q==nullptr)
+        return 1;
+        else 
+        return -1;
