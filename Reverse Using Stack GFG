@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    string reverse(const string& S) {
+        // code here
+        stack<char>s;
+        for(char c :S)
+        {
+            s.push(c);
+        }
+        string s1="";
+        while(!s.empty())
+        {
+            s1+=s.top();
+            s.pop();
+        }
+        return s1;
+    }
+};
