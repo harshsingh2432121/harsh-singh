@@ -1,0 +1,13 @@
+class Solution {
+public:
+ pair<int,bool> height(TreeNode* root){
+        if(root==nullptr) return {0,true};
+        pair<int,bool> left=height(root->left);
+        pair<int,bool> right=height(root->right);
+        bool to_be_return= left.second && right.second && (abs(left.first-right.first)>1 ? false:true);
+        return {max(left.first,right.first) + 1,to_be_return};
+    }
+    bool isBalanced(TreeNode* root) {
+        return height(root).second;
+    }
+};
