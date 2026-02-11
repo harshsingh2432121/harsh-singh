@@ -1,0 +1,26 @@
+string encryption(string s) {
+    string ans="";
+    int n=s.size();
+    float sq = (float)sqrt(n);
+    int lower = floor(sq) , upper = ceil(sq);
+    
+    if (lower*upper>=n) {
+        //do nothing
+    }
+    else {
+        if (lower<=upper) {
+            while(lower*upper<n) lower++;
+        }
+        else {
+            while(lower*upper<n) upper++;
+        }
+    }
+    
+    for (int i=0 ; i<upper ; i++) {
+        for (int j=i ; j<n ; j+=upper) {
+            ans+=s[j];
+        }
+        ans+=' ';
+    }
+    return ans;
+}
