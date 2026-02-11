@@ -1,0 +1,103 @@
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+class Solution {
+    struct Node {
+        int min_val;
+        int max_val;
+        int lazy;
+    } tree[400005];
+
+    void build(int node, int start, int end) {
+        tree[node] = {0, 0, 0};
+        if (start == end) return;
+        int mid = (start + end) / 2;
+        build(2 * node, start, mid);
+        build(2 * node + 1, mid + 1, end);
+    }
+
+    void push(int node) {
+        if (tree[node].lazy != 0) {
+            tree[2 * node].min_val += tree[node].lazy;
+            tree[2 * node].max_val += tree[node].lazy;
+            tree[2 * node].lazy += tree[node].lazy;
+
+            tree[2 * node + 1].min_val += tree[node].lazy;
+            tree[2 * node + 1].max_val += tree[node].lazy;
+            tree[2 * node + 1].lazy += tree[node].lazy;
+
+            tree[node].lazy = 0;
+        }
+    }
+
+    void update(int node, int start, int end, int l, int r, int val) {
+        if (l > end || r < start) return;
+        if (l <= start && end <= r) {
+            tree[node].min_val += val;
+            tree[node].max_val += val;
+            tree[node].lazy += val;
+            return;
+        }
+        push(node);
+        int mid = (start + end) / 2;
+        update(2 * node, start, mid, l, r, val);
+        update(2 * node + 1, mid + 1, end, l, r, val);
+        tree[node].min_val = min(tree[2 * node].min_val, tree[2 * node + 1].min_val);
+        tree[node].max_val = max(tree[2 * node].max_val, tree[2 * node + 1].max_val);
+    }
+
+    // Find leftmost index with value 0 in range [1, limit]
+    int query(int node, int start, int end, int limit) {
+        // Optimization: if 0 is not in the range [min, max], return -1
+        if (tree[node].min_val > 0 || tree[node].max_val < 0) return -1;
+        if (start > limit) return -1;
+        
+        if (start == end) {
+            return (tree[node].min_val == 0) ? start : -1;
+        }
+        
+        push(node);
+        int mid = (start + end) / 2;
+        
+        // Try left child first (to find the leftmost index)
+        int res = query(2 * node, start, mid, limit);
+        if (res != -1) return res;
+        
+        // Otherwise try right child
+        return query(2 * node + 1, mid + 1, end, limit);
+    }
+
+public:
+    int longestBalanced(vector<int>& nums) {
+        int n = nums.size();
+        build(1, 1, n);
+        
+        vector<int> last_pos(100001, 0); // Assuming values are <= 10^5
+        int max_len = 0;
+
+        for (int i = 0; i < n; ++i) {
+            int num = nums[i];
+            int current_idx = i + 1; // 1-based index for SegTree
+            int prev = last_pos[num];
+            
+            int val = (num % 2 == 0) ? 1 : -1;
+            
+            // Update range (prev + 1, current_idx)
+            update(1, 1, n, prev + 1, current_idx, val);
+            
+            // Find leftmost L such that balance(L...current_idx) == 0
+            int left_idx = query(1, 1, n, current_idx);
+            
+            if (left_idx != -1) {
+                max_len = max(max_len, current_idx - left_idx + 1);
+            }
+            
+            last_pos[num] = current_idx;
+        }
+        
+        return max_len;
+    }
+};
