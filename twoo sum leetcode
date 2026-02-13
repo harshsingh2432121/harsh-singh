@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        
+        vector<pair<int,int>> dhoni;
+        
+        for(int i = 0; i < n; i++){
+            dhoni.push_back({nums[i], i});
+        }
+
+        sort(dhoni.begin(), dhoni.end());
+
+        int l = 0, r = n - 1;
+
+        while(l < r){
+            int sum = dhoni[l].first + dhoni[r].first;
+
+            if(sum == target)
+                return {dhoni[l].second, dhoni[r].second};
+            else if(sum < target)
+                l++;
+            else
+                r--;
+        }
+        return {};
+    }
+};
