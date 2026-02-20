@@ -1,0 +1,52 @@
+class Solution {
+  public:
+    void setMatrixZeroes(vector<vector<int>> &A) {
+      int m = A.size();
+        int n = A[0].size();
+        bool rowzero = false;
+        bool colzero = false;
+        int i, j, k;
+       for(k=0;k<m;k++)
+       {
+           if(A[k][0]==0)
+           colzero=true;
+       }
+       for(k=0;k<n;k++)
+       {
+           if(A[0][k]==0)
+           rowzero=true;
+       }
+       for(i=1;i<m;i++)
+       {
+           for(j=1;j<n;j++)
+           {
+               if(A[i][j]==0)
+               {
+                   A[0][j]=0;
+                   A[i][0]=0;
+               }
+           }
+       }
+       for(i=1;i<m;i++)
+       {
+           for(j=1;j<n;j++)
+           {
+               if(A[0][j]==0||A[i][0]==0)
+               {
+                   A[i][j]=0;
+               }
+           }
+       }
+    
+       if(rowzero) { 
+            for(k = 0; k < n; k++) {
+                A[0][k] = 0;
+            }
+        }
+      if(colzero) { 
+            for(k = 0; k < m; k++) {
+                A[k][0] = 0;
+            }
+        }
+}
+};
