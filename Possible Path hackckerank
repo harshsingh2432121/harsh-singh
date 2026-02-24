@@ -1,0 +1,9 @@
+string solve(long a, long b, long x, long y) {
+long startGCD = __gcd(a, b);
+    long targetGCD = __gcd(x, y);
+    if (startGCD == targetGCD) {
+        return "YES";
+    } else {
+        return "NO";
+    }
+}
